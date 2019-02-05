@@ -1,0 +1,37 @@
+[package]
+name = "ssh-keys-from-remotes"
+version = "0.1.0"
+authors = ["Liam Dawson <liam@ldaws.com>"]
+edition = "2018"
+license = "MIT/Apache-2.0"
+repository = "https://github.com/liamdawson/ssh-keys-from-remotes"
+homepage = "https://github.com/liamdawson/ssh-keys-from-remotes"
+readme = "README.md"
+description = "Fetches and caches remote SSH keys for authorized_keys_command"
+
+[profile.dev]
+panic = "unwind"
+
+[profile.release]
+panic = "unwind"
+
+[dependencies]
+reqwest = "~0.9"
+serde = "~1.0"
+serde_derive = "~1.0"
+config = { version = "~0.9", default-features = false, features = ["toml"] }
+clap = "~2.32"
+rust-crypto = "^0.2"
+retry = "~0.4"
+
+[package.metadata.deb]
+maintainer = "Liam Dawson <liam@ldaws.com>"
+copyright = "2019, Liam Dawson <liam@ldaws.com>"
+maintainer-scripts = "packaging/debian/scripts"
+extended-description = """\
+Tool for fetching and caching remote SSH keys for authorized_key_command\
+"""
+assets = [
+  ["target/release/ssh-keys-from-remotes", "usr/bin/", "755"],
+  ["doc/ssh-keys-remotes.toml.example", "usr/share/doc/ssh-keys-from-remotes/ssh-keys-remotes.toml.example", "644"]
+]

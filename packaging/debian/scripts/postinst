@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eu
+
+adduser --quiet --system --no-create-home ssh_keys_from_remotes
+
+[[ -f "etc/ssh-keys-remotes.toml" ]] || cp usr/share/doc/ssh-keys-from-remotes/ssh-keys-remotes.toml.example etc/ssh-keys-remotes.toml
+chown ssh_keys_from_remotes etc/ssh-keys-remotes.toml
+chmod 600 etc/ssh-keys-remotes.toml
+
+[[ -d "var/cache/ssh-keys-from-remotes" ]] || mkdir -p "var/cache/ssh-keys-from-remotes"
+chown ssh_keys_from_remotes "var/cache/ssh-keys-from-remotes"
+chmod 2700 "var/cache/ssh-keys-from-remotes"

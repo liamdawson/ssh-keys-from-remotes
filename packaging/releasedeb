@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eu
+
+deb-s3 upload \
+  --lock \
+  --bucket=ssh-keys-from-remotes-repo \
+  --access-key-id="${REPO_ACCESS_KEY_ID}" \
+  --secret-access-key="${REPO_ACCESS_KEY_SECRET}" \
+  --visibility=public \
+  --sign=847F00964A35BDB8 \
+  --gpg-options="--passphrase '${GPG_KEY_PASSPHRASE}'" \
+  "target/debian/*.deb"

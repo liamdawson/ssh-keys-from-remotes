@@ -1,0 +1,49 @@
+language: rust
+cache:
+- cargo
+- bundler
+rust:
+- stable
+- beta
+- nightly
+matrix:
+  allow_failures:
+  - rust: nightly
+  fast_finish: true
+install:
+- bundle install
+- cargo fetch
+- rustup component add clippy
+- rustup component add rustfmt
+script:
+- cargo fmt --all -- --check
+- cargo build
+- cargo clippy -- -D warnings
+- cargo test --verbose --all
+jobs:
+  include:
+  - stage: "\U0001F6A2 Ship it!"
+    if: tag IS present
+    rust: stable
+    script:
+    - command -v cargo-deb || cargo install cargo-deb
+    - cargo build --release
+    - openssl aes-256-cbc -K $encrypted_1645300b04d0_key -iv $encrypted_1645300b04d0_iv -in repo.key.enc -out repo.key.unencrypted -d
+    - echo "${GPG_KEY_PASSPHRASE}" | gpg --passphrase-fd 0 --batch --yes --no-tty --import repo.key.unencrypted
+    - ./packaging/mkdeb "$TRAVIS_TAG"
+    - bash ./packaging/releasedeb
+    on:
+      tags: true
+      repo: liamdawson/ssh-keys-from-remotes
+    deploy:
+    - provider: releases
+      on:
+        tags: true
+        repo: liamdawson/ssh-keys-from-remotes
+      skip_cleanup: true
+      api_key:
+        secure: YK8HEWpp2PlV852mZynvHmrZItVkUopbnUvPRf8o2rD6/bMVSSPA5SvytxMjUUa6Ssfd3KGQolw0njtYJ0Efy1Cw7xikd4hY6fGgUDx3PbdSPY3xLo9mpDHHVsDKUoDciNy0MTiMW92qsP4GYmRXKJAml4THHpoDKs3d2nWj+Z03V2vEOb5ldijWOF311iW9etX8ldO51vZGcf7ErEykw45M5+m0qa88YOqTn2EXY1x1ebTzH8FPnLaIpfgyUibqZ+pbepcOjj2pdBh5Sp0DDVOGXJCovmCYU7soFqXHQ9Rt4pktLg9SOCY2bqieJdI0CuPPhn381xYYQXX9b1emIl0KJtdglMnVf9wseVPpYXtg1O7JbZiIqfLeWX2ygaNcCjrswTlXiaBShjim4g//1hgMi2Mch6jHzF3sCwN2tjzMYCvmyl0s7/x0B8bGomsoPaTwcMS4L7XgugCw8kOYFWWuIxOEk4QC93xw/qVeUsrYdbHJpMWlEKbAqzwZqmqq3/68BID0yPs4rn4PJ53l45jLkc7kJddlm70ptO0vOzbqOYuPAi2ZHokJDpq8IDRigYeWR91ZVOcvr5pN/WoEttytIvhDHZoHiEy5JAAqFELkcngfn4mqSCFkKnG8zrw/MlXmAIyq76ENqkOLm24WfPiQplU9lRZTocEaACvs4n4=
+      file_glob: true
+      file:
+      - target/release/ssh-keys-from-remotes
+      - target/debian/*
