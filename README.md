@@ -27,3 +27,15 @@ whenever a new release is created.
 Usage
 -----
 
+Replace the following lines in `/etc/ssh/sshd_config`:
+
+```diff
+-#AuthorizedKeysCommand none
+-#AuthorizedKeysCommandUser nobody
++AuthorizedKeysCommand /usr/bin/ssh-keys-from-remotes fetch %u
++AuthorizedKeysCommandUser ssh_keys_from_remotes
+```
+
+Edit `/etc/ssh-keys-remotes.toml` to map local users to remote keys.
+
+Finally, *reload* your SSH server with `sudo systemctl reload ssh`
