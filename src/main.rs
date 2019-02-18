@@ -23,14 +23,14 @@ fn inner_main() {
     let app = app_from_crate!();
     let matches = app
         .subcommand(
-            App::new("fetch")
-                .about("Fetch remote keys for user")
+            App::new("pull")
+                .about("Fetch and list remote keys for user")
                 .args_from_usage("<USERNAME> 'target username'"),
         )
         .get_matches();
 
     match matches.subcommand() {
-        ("fetch", Some(submatches)) => {
+        ("pull", Some(submatches)) => {
             // no point continuing if config or username won't load
             let config = app_settings::config_from_default_location().unwrap();
             let username = submatches.value_of("USERNAME").unwrap();

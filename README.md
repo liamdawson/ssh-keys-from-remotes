@@ -32,7 +32,7 @@ Replace the following lines in `/etc/ssh/sshd_config`:
 ```diff
 -#AuthorizedKeysCommand none
 -#AuthorizedKeysCommandUser nobody
-+AuthorizedKeysCommand /usr/bin/ssh-keys-from-remotes fetch %u
++AuthorizedKeysCommand /usr/bin/ssh-keys-from-remotes pull %u
 +AuthorizedKeysCommandUser ssh_keys_from_remotes
 ```
 
