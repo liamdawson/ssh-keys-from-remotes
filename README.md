@@ -16,8 +16,8 @@ through in a timely fashion):
 ```shell
 # Debian-based distros (using apt):
 
-sudo apt-key adv --fetch-keys http://ssh-keys-from-remotes-repo.s3-website-us-east-1.amazonaws.com/signing-key.pgp
-sudo apt-add-repository 'deb http://ssh-keys-from-remotes-repo.s3-website-us-east-1.amazonaws.com/ stable main'
+sudo apt-key adv --fetch-keys https://repo.skfr.ldaws.com/signing-key.pgp
+sudo apt-add-repository 'deb https://repo.skfr.ldaws.com/ stable main'
 sudo apt install ssh-keys-from-remotes
 ```
 
