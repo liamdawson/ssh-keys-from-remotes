@@ -1,4 +1,5 @@
 mod caching_client;
+mod request;
 
 pub use caching_client::CachingClient;
 

@@ -24,6 +24,9 @@ clap = "~2.32"
 rust-crypto = "^0.2"
 retry = "~0.4"
 
+[dev-dependencies]
+mockito = "~0.16"
+
 [package.metadata.deb]
 maintainer = "Liam Dawson <liam@ldaws.com>"
 copyright = "2019, Liam Dawson <liam@ldaws.com>"
