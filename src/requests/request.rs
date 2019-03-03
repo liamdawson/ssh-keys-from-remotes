@@ -2,6 +2,9 @@ use retry::retry;
 use reqwest::{Client, Result, Response};
 use std::time::Duration;
 
+const TIMEOUT_LENGTH: u64 = 2500u64;
+const MS_BETWEEN_RETRIES: u64 = 500;
+const MAX_RETRIES: u64 = 2;
 const PERMANENT_ERROR_CODES: &[u16] = &[401, 403, 404, 405, 406, 410, 451];
 
 #[derive(PartialEq, Clone, Debug)]
@@ -29,7 +32,7 @@ fn try_fetch(url: &str, timeout: u64) -> Result<Response> {
 }
 
 pub fn fetch(url: &str) -> FetchResult {
-    let retry_result = retry(2, 500, || try_fetch(url, 2500), |res| error_response_type(res) != Some(FetchResult::TransientError));
+    let retry_result = retry(MAX_RETRIES, MS_BETWEEN_RETRIES, || try_fetch(url, TIMEOUT_LENGTH), |res| error_response_type(res) != Some(FetchResult::TransientError));
 
     if retry_result.is_err() {
         return FetchResult::TransientError;
@@ -66,12 +69,24 @@ mod tests {
     }
 
     #[test]
-    fn tries_twice_before_failing() {
+    fn it_tries_twice_before_failing() {
         let url = &mockito::server_url();
         let request_mock = mockito::mock("GET", "/").with_status(500).expect(2).create();
 
         assert_eq!(FetchResult::TransientError, fetch(url));
 
         request_mock.assert();
+    }
+
+    #[test]
+    fn it_respects_the_list_of_permanent_errors() {
+        let url = &mockito::server_url();
+        for error_code in super::PERMANENT_ERROR_CODES {
+            let request_mock = mockito::mock("GET", "/").with_status(usize::from(*error_code)).with_body("This is a permanent error.").expect(1).create();
+
+            assert_eq!(FetchResult::PermanentError, fetch(url));
+
+            request_mock.assert();
+        }
     }
 }
