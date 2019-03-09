@@ -1,6 +1,6 @@
 [package]
 name = "ssh-keys-from-remotes"
-version = "0.1.0"
+version = "0.2.1"
 authors = ["Liam Dawson <liam@ldaws.com>"]
 edition = "2018"
 license = "MIT/Apache-2.0"
@@ -33,5 +33,7 @@ Tool for fetching and caching remote SSH keys for authorized_key_command\
 """
 assets = [
   ["target/release/ssh-keys-from-remotes", "usr/bin/", "755"],
-  ["doc/ssh-keys-remotes.toml.example", "usr/share/doc/ssh-keys-from-remotes/ssh-keys-remotes.toml.example", "644"]
+  ["doc/ssh-keys-remotes.toml.example", "usr/share/doc/ssh-keys-from-remotes/", "644"],
+  ["man/ssh-keys-from-remotes.1", "usr/share/man/man1/", "644"],
+  ["man/ssh-keys-from-remotes.1.html", "usr/share/doc/ssh-keys-from-remotes/", "644"]
 ]
