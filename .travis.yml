@@ -11,6 +11,7 @@ matrix:
   - rust: nightly
   fast_finish: true
 install:
+- gem install bundler
 - bundle install
 - cargo fetch
 - rustup component add clippy

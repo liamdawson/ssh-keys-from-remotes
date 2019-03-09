@@ -9,6 +9,8 @@ fi
 cp Cargo.toml Cargo.toml.bak
 sed -Ee 's/^version = ".*"/version = "'"$1"'"/' Cargo.toml.bak > Cargo.toml
 
+./bin/ronn -r5 man/*.ronn
+
 cargo deb
 
 mv Cargo.toml.bak Cargo.toml

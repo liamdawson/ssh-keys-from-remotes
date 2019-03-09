@@ -1,0 +1,22 @@
+ssh-keys-from-remotes(1) -- allow ssh login via keys from a remote location
+===========================================================================
+
+## SYNOPSIS
+
+`ssh-keys-from-remotes` <command>
+
+## DESCRIPTION
+
+## COMMANDS
+
+### pull <username>
+
+Fetches the remote urls for the unix user, attempts to cache them for
+future access, then returns the contents of those URLs.
+
+If caching the remote response fails, those keys will still be returned
+on stdout.
+
+If any remote urls were unavailable, cached results will be used
+(unless the response from the remote server indicates that the keys
+were removed, as opposed to temporarily unavailable).
