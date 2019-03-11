@@ -3,7 +3,6 @@ use crypto::sha2::Sha256;
 use std::fs::File;
 use std::path::{Path, PathBuf};
 use std::time::{Duration, SystemTime};
-use std::io::Read;
 
 /*
 ## Notes for future:
@@ -92,7 +91,10 @@ mod tests {
         let two_hours = Some(Duration::from_secs(3600 * 2));
         let half_hour = Duration::from_secs(1800);
 
-        assert!(appropriate_key_age(SystemTime::now() - half_hour, two_hours));
+        assert!(appropriate_key_age(
+            SystemTime::now() - half_hour,
+            two_hours
+        ));
     }
 
     #[test]
@@ -105,6 +107,9 @@ mod tests {
         let half_hour = Some(Duration::from_secs(1800));
         let two_hours = Duration::from_secs(3600 * 2);
 
-        assert!(!appropriate_key_age(SystemTime::now() - two_hours, half_hour));
+        assert!(!appropriate_key_age(
+            SystemTime::now() - two_hours,
+            half_hour
+        ));
     }
 }

@@ -1,7 +1,7 @@
+use super::FetchResult;
 use super::UrlClient;
 use crate::caching::CacheService;
 use std::time::Duration;
-use super::FetchResult;
 
 pub struct CachingClient {
     cache_service: Box<CacheService>,
@@ -13,10 +13,8 @@ impl UrlClient for CachingClient {
             FetchResult::PermanentError => {
                 self.set(url, "");
                 String::from("")
-            },
-            FetchResult::TransientError => {
-                self.get(url)
-            },
+            }
+            FetchResult::TransientError => self.get(url),
             FetchResult::Success(body) => {
                 self.set(url, &body);
                 body
