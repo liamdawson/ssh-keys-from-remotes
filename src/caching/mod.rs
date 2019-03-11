@@ -1,6 +1,6 @@
+mod file;
 mod fs_cacher;
 mod null_cacher;
-mod file;
 
 pub use fs_cacher::FilesystemCacher;
 pub use null_cacher::NullCacher;
