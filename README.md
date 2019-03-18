@@ -1,6 +1,8 @@
 SSH Keys from Remotes
 =====================
 
+## Warning: Still unstable—before 1.0, automatic updates may lock you out of systems.
+
 [![Build Status](https://travis-ci.com/liamdawson/ssh-keys-from-remotes.svg?branch=master)](https://travis-ci.com/liamdawson/ssh-keys-from-remotes)
 
 _**Disclaimer:** No serious security testing has been performed. Use at your own risk!_
